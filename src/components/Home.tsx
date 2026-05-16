@@ -1,13 +1,16 @@
 import { useRef, useState } from 'react'
 import type { Store } from '../useStore'
 import type { CardType } from '../types'
+import type { ThemePref } from '../useTheme'
 
 interface Props {
   store: Store
   onOpenDeck: (deckId: string) => void
+  themePref: ThemePref
+  onCycleTheme: () => void
 }
 
-export function Home({ store, onOpenDeck }: Props) {
+export function Home({ store, onOpenDeck, themePref, onCycleTheme }: Props) {
   const [creating, setCreating] = useState(false)
   const [name, setName] = useState('')
   const [type, setType] = useState<CardType>('math')
@@ -57,8 +60,17 @@ export function Home({ store, onOpenDeck }: Props) {
   return (
     <div className="screen">
       <header className="topbar">
+        <span />
         <h1>Memorize</h1>
         <div className="topbar-actions">
+          <button
+            className="icon-btn"
+            onClick={onCycleTheme}
+            title={`Tema: ${themeLabel(themePref)} — tocca per cambiare`}
+            aria-label="Cambia tema"
+          >
+            {themeIcon(themePref)}
+          </button>
           <button className="icon-btn" onClick={exportData} title="Esporta">
             ↓
           </button>
@@ -148,4 +160,11 @@ export function Home({ store, onOpenDeck }: Props) {
 
 function labelForType(t: CardType): string {
   return t === 'math' ? 'Matematica' : t === 'japanese' ? 'Giapponese' : 'Testo'
+}
+
+function themeIcon(p: ThemePref): string {
+  return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'
+}
+function themeLabel(p: ThemePref): string {
+  return p === 'light' ? 'chiaro' : p === 'dark' ? 'scuro' : 'auto'
 }

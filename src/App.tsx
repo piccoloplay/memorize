@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MathJaxContext } from 'better-react-mathjax'
 import { mathJaxConfig } from './mathjax'
 import { useStore } from './useStore'
+import { useTheme } from './useTheme'
 import { Home } from './components/Home'
 import { DeckView } from './components/DeckView'
 import { CardEditor } from './components/CardEditor'
@@ -15,6 +16,7 @@ type View =
 
 export default function App() {
   const store = useStore()
+  const theme = useTheme()
   const [view, setView] = useState<View>({ name: 'home' })
 
   const deck =
@@ -33,6 +35,8 @@ export default function App() {
         <Home
           store={store}
           onOpenDeck={(deckId) => setView({ name: 'deck', deckId })}
+          themePref={theme.pref}
+          onCycleTheme={theme.cycle}
         />
       )}
 
