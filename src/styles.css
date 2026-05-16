@@ -1,4 +1,5 @@
-:root {
+:root,
+:root[data-theme='dark'] {
   --bg: #0f172a;
   --bg-elev: #1e293b;
   --bg-elev-2: #273449;
@@ -6,12 +7,31 @@
   --text-dim: #94a3b8;
   --accent: #38bdf8;
   --accent-strong: #0ea5e9;
+  --success: #22c55e;
+  --success-strong: #16a34a;
   --danger: #f87171;
+  --danger-strong: #dc2626;
   --border: #334155;
-  --radius: 14px;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --radius: 14px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-theme='light'] {
+  --bg: #f8fafc;
+  --bg-elev: #ffffff;
+  --bg-elev-2: #f1f5f9;
+  --text: #0f172a;
+  --text-dim: #64748b;
+  --accent: #0284c7;
+  --accent-strong: #0369a1;
+  --success: #16a34a;
+  --success-strong: #15803d;
+  --danger: #dc2626;
+  --danger-strong: #b91c1c;
+  --border: #e2e8f0;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -257,6 +277,67 @@ button {
   background: var(--accent-strong);
   color: white;
   border-color: transparent;
+}
+.bottom-bar__btn.success {
+  background: var(--success);
+  color: white;
+  border-color: transparent;
+}
+.bottom-bar__btn.success:active {
+  background: var(--success-strong);
+}
+.bottom-bar__btn.danger {
+  background: var(--danger);
+  color: white;
+  border-color: transparent;
+}
+.bottom-bar__btn.danger:active {
+  background: var(--danger-strong);
+}
+
+.study-progress {
+  height: 4px;
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+.study-progress__bar {
+  height: 100%;
+  background: var(--accent-strong);
+  transition: width 0.25s ease-out;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding-top: 40px;
+}
+.result__big {
+  font-size: 64px;
+  line-height: 1;
+}
+.result__title {
+  font-size: 22px;
+  font-weight: 600;
+}
+.result__score {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--accent-strong);
+  letter-spacing: -0.03em;
+}
+.result__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.result__stats strong {
+  color: var(--text);
 }
 
 /* Modal */
