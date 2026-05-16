@@ -33,6 +33,12 @@ export function Home({ store, onOpenDeck }: Props) {
     URL.revokeObjectURL(url)
   }
 
+  function loadSamples() {
+    const added = store.loadSamples()
+    if (added === 0) alert('Tutti i mazzi di esempio sono già presenti.')
+    else alert(`Aggiunti ${added} mazzi di esempio.`)
+  }
+
   async function importData(file: File) {
     try {
       const text = await file.text()
@@ -79,7 +85,7 @@ export function Home({ store, onOpenDeck }: Props) {
 
       <main className="content">
         {store.state.decks.length === 0 && (
-          <p className="empty">Nessun mazzo. Creane uno per iniziare.</p>
+          <p className="empty">Nessun mazzo. Creane uno o carica gli esempi.</p>
         )}
         <ul className="deck-list">
           {store.state.decks.map((d) => (
@@ -87,13 +93,16 @@ export function Home({ store, onOpenDeck }: Props) {
               <button className="deck-row" onClick={() => onOpenDeck(d.id)}>
                 <span className="deck-row__name">{d.name}</span>
                 <span className="deck-row__meta">
-                  {d.cards.length} {d.cards.length === 1 ? 'card' : 'card'} ·{' '}
-                  {labelForType(d.defaultType)}
+                  {d.cards.length} card · {labelForType(d.defaultType)}
                 </span>
               </button>
             </li>
           ))}
         </ul>
+
+        <button className="samples-btn" onClick={loadSamples}>
+          + Carica mazzi di esempio (RL, CG, kanji)
+        </button>
       </main>
 
       {creating ? (
