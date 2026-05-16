@@ -1,3 +1,4 @@
+import { sampleDecks, type DeckTemplate } from './samples'
 import type { AppState, Deck } from './types'
 
 const KEY = 'memorize:v1'
@@ -24,58 +25,25 @@ export function uid(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36)
 }
 
+/** Materializes a template into a Deck with fresh IDs/timestamps. */
+export function instantiateTemplate(tpl: DeckTemplate, offset = 0): Deck {
+  const now = Date.now() + offset
+  return {
+    id: uid(),
+    name: tpl.name,
+    defaultType: tpl.defaultType,
+    createdAt: now,
+    cards: tpl.cards.map((c, i) => ({
+      ...c,
+      id: uid(),
+      createdAt: now + i,
+    })),
+  }
+}
+
 function seedIfFirstRun(): AppState {
-  const mathDeck: Deck = {
-    id: uid(),
-    name: 'Formule matematiche',
-    defaultType: 'math',
-    createdAt: Date.now(),
-    cards: [
-      {
-        id: uid(),
-        type: 'math',
-        front: 'Teorema di Pitagora',
-        back: '$a^2 + b^2 = c^2$',
-        createdAt: Date.now(),
-      },
-      {
-        id: uid(),
-        type: 'math',
-        front: 'Formula quadratica',
-        back: '$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$',
-        createdAt: Date.now(),
-      },
-      {
-        id: uid(),
-        type: 'math',
-        front: 'Identità di Eulero',
-        back: '$e^{i\\pi} + 1 = 0$',
-        createdAt: Date.now(),
-      },
-    ],
-  }
-  const jpDeck: Deck = {
-    id: uid(),
-    name: 'Hiragana base',
-    defaultType: 'japanese',
-    createdAt: Date.now(),
-    cards: [
-      { id: uid(), type: 'japanese', front: 'あ', back: 'a', createdAt: Date.now() },
-      { id: uid(), type: 'japanese', front: 'い', back: 'i', createdAt: Date.now() },
-      { id: uid(), type: 'japanese', front: 'う', back: 'u', createdAt: Date.now() },
-      { id: uid(), type: 'japanese', front: 'え', back: 'e', createdAt: Date.now() },
-      { id: uid(), type: 'japanese', front: 'お', back: 'o', createdAt: Date.now() },
-      {
-        id: uid(),
-        type: 'japanese',
-        front: '水',
-        back: 'acqua',
-        notes: 'みず (mizu)',
-        createdAt: Date.now(),
-      },
-    ],
-  }
-  const state: AppState = { version: 1, decks: [mathDeck, jpDeck] }
+  const decks = sampleDecks.map((tpl, i) => instantiateTemplate(tpl, i))
+  const state: AppState = { version: 1, decks }
   saveState(state)
   return state
 }

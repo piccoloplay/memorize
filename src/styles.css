@@ -201,6 +201,21 @@ button {
   margin-top: 4px;
 }
 
+.samples-btn {
+  margin: 24px auto 0;
+  display: block;
+  padding: 12px 18px;
+  background: transparent;
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.samples-btn:active {
+  background: rgba(56, 189, 248, 0.1);
+}
+
 /* FAB */
 .fab {
   position: fixed;

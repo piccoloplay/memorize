@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { loadState, saveState, uid } from './storage'
+import { instantiateTemplate, loadState, saveState, uid } from './storage'
+import { sampleDecks } from './samples'
 import type { AppState, Card, CardType, Deck } from './types'
 
 export function useStore() {
@@ -74,6 +75,21 @@ export function useStore() {
 
   const replaceAll = useCallback((next: AppState) => setState(next), [])
 
+  /** Adds the built-in sample decks, skipping any whose name already exists. */
+  const loadSamples = useCallback(() => {
+    let added = 0
+    setState((s) => {
+      const existing = new Set(s.decks.map((d) => d.name))
+      const toAdd = sampleDecks
+        .filter((tpl) => !existing.has(tpl.name))
+        .map((tpl, i) => instantiateTemplate(tpl, i))
+      added = toAdd.length
+      if (toAdd.length === 0) return s
+      return { ...s, decks: [...s.decks, ...toAdd] }
+    })
+    return added
+  }, [])
+
   return {
     state,
     addDeck,
@@ -83,6 +99,7 @@ export function useStore() {
     updateCard,
     deleteCard,
     replaceAll,
+    loadSamples,
   }
 }
 
