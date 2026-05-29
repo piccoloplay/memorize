@@ -115,6 +115,10 @@ export function Home({ store, onOpenDeck, themePref, onCycleTheme }: Props) {
         <button className="samples-btn" onClick={loadSamples}>
           + Carica mazzi di esempio (RL, CG, kanji)
         </button>
+
+        <a className="samples-btn" href="./comic.html" style={{ marginTop: 12 }}>
+          🎬 Comic video maker
+        </a>
       </main>
 
       {creating ? (
