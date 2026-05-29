@@ -231,6 +231,11 @@ button {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+a.samples-btn {
+  width: fit-content;
 }
 .samples-btn:active {
   background: rgba(56, 189, 248, 0.1);
